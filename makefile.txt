@@ -1,0 +1,20 @@
+CXXFLAGS = -std=c++17
+GTKFLAGS = `/usr/bin/pkg-config gtkmm-3.0 --cflags --libs`
+
+executable: Bank.o Client.o Account.o main.o dialog.o Main_Window.o
+	$(CXX) $(CXXFLAGS) -o executable Bank.o Client.o Account.o main.o dialog.o Main_Window.o $(GTKFLAGS)
+	./executable
+main.o: Main_Window.h main.cpp Bank.h Client.h Account.h
+	$(CXX) $(CXXFLAGS) -c main.cpp $(GTKFLAGS)
+Main_Window.o: Main_Window.h Main_Window.cpp Bank.h Client.h Account.h
+	$(CXX) $(CXXFLAGS) -c Main_Window.cpp $(GTKFLAGS)
+Bank.o: Bank.h Bank.cpp Client.h Account.h
+	$(CXX) $(CXXFLAGS) -c Bank.cpp $(GTKFLAGS)
+Client.o: Client.cpp Client.h
+	$(CXX) $(CXXFLAGS) -c Client.cpp $(GTKFLAGS)
+Account.o: Account.cpp Account.h
+	$(CXX) $(CXXFLAGS) -c Account.cpp $(GTKFLAGS)
+dialog.o: dialog.h dialog.cpp
+	$(CXX) $(CXXFLAGS) -c dialog.cpp $(GTKFLAGS)
+clean:
+	rm -f *.o a.out
